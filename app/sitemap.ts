@@ -1,24 +1,50 @@
 import type { MetadataRoute } from "next";
 
-export const dynamic = "force-static";
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://shreyaan-physiotherapy.vercel.app";
+  const base = "https://shreyaanphysiotherapycenter.in";
 
   return [
-    "",
-    "/#about",
-    "/#services",
-    "/#gallery",
-    "/#testimonials",
-    "/#faq",
-    "/#contact",
-  ].map((path) => ({
-    url: base + path,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: path ? 0.7 : 1,
-  }));
+    {
+      url: base,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${base}/#about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${base}/#services`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${base}/#gallery`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${base}/#testimonials`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${base}/#faq`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${base}/#contact`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+  ];
 }

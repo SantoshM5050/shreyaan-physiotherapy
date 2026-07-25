@@ -2,48 +2,53 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shreyaanphysiotherapycenter.in"),
+
   title: {
     default: "Shreyaan Physiotherapy Center | Unchahar",
-    template: "%s | Shreyaan Physiotherapy",
+    template: "%s | Shreyaan Physiotherapy Center",
   },
 
   description:
-    "Expert physiotherapy and rehabilitation by Dr. Sonam Maurya in Unchahar.",
+    "Expert physiotherapy and rehabilitation by Dr. Sonam Maurya in Unchahar. Specialized treatment for back pain, neck pain, knee pain, sciatica, paralysis, sports injuries and rehabilitation.",
 
   keywords: [
-    "physiotherapist Unchahar",
-    "back pain treatment",
-    "neck pain treatment",
-    "knee pain treatment",
-    "sports injury",
-    "slip disc treatment",
-    "sciatica treatment",
-    "physiotherapy clinic",
-    "rehabilitation",
+    "Physiotherapy",
+    "Physiotherapist",
+    "Physiotherapy Clinic",
+    "Back Pain",
+    "Neck Pain",
+    "Knee Pain",
+    "Sciatica",
+    "Slip Disc",
+    "Sports Injury",
+    "Paralysis",
+    "Unchahar",
+    "Raebareli",
+    "Dr Sonam Maurya",
   ],
-
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ||
-      "https://shreyaan-physiotherapy.vercel.app",
-  ),
 
   verification: {
     google: "XyXkrSzNhde2sZE0epZDtXiL-qTarPVsdDwkyV07Jak",
   },
 
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
-    siteName: "Shreyaan Physiotherapy Center",
-    title: "Shreyaan Physiotherapy Center | Unchahar",
-    description:
-      "Expert physiotherapy and rehabilitation by Dr. Sonam Maurya in Unchahar.",
-    url: "https://shreyaan-physiotherapy.vercel.app",
-  },
-
   robots: {
     index: true,
     follow: true,
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://shreyaanphysiotherapycenter.in",
+    title: "Shreyaan Physiotherapy Center",
+    description:
+      "Expert physiotherapy and rehabilitation by Dr. Sonam Maurya in Unchahar.",
+    siteName: "Shreyaan Physiotherapy Center",
+  },
+
+  alternates: {
+    canonical: "https://shreyaanphysiotherapycenter.in",
   },
 };
 
@@ -54,7 +59,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+      </body>
     </html>
   );
 }
