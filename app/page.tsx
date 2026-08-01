@@ -21,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { FormEvent, useState } from "react";
+import GoogleReviews from "../components/GoogleReviews";
 
 const phone = "+919140574645";
 const siteUrl =
@@ -391,35 +392,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section id="testimonials" className="bg-navy py-24 text-white">
-          <div className="section">
-            <p className="eyebrow">Patient voices</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold sm:text-4xl">
-              Small wins become lasting change.
-            </h2>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {[
-                [
-                  "“The treatment plan was clear and I felt more confident with every visit.”",
-                  "— Local patient",
-                ],
-                [
-                  "“Dr. Sonam is patient, professional and truly listens to your concerns.”",
-                  "— Rehabilitation patient",
-                ],
-                [
-                  "“A very clean clinic and caring guidance for my knee pain.”",
-                  "— Unchahar resident",
-                ],
-              ].map(([quote, by]) => (
-                <figure key={quote} className="rounded-3xl border border-white/10 bg-white/5 p-7">
-                  <blockquote className="text-lg leading-8">{quote}</blockquote>
-                  <figcaption className="mt-6 text-sm font-bold text-teal">{by}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
+        <GoogleReviews />
         <section id="faq" className="section py-24">
           <SectionTitle
             eyebrow="Questions, answered"
