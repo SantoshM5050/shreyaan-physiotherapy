@@ -153,9 +153,9 @@ export default function GalleryPage() {
           {!loading && !error && galleryItems.length === 0 && (
             <div className="max-w-md mx-auto rounded-3xl border border-slate-200 bg-slate-50 p-12 text-center text-slate-500 space-y-3">
               <ImageIcon size={48} className="mx-auto text-teal mb-2" />
-              <h3 className="font-bold text-navy text-lg">No Images Uploaded Yet</h3>
+              <h3 className="font-bold text-navy text-lg">No Gallery Images Available Yet</h3>
               <p className="text-xs">
-                No clinic images found for category &quot;{activeCategory}&quot;. Upload new photos from Doctor Dashboard.
+                No clinic images found for category &quot;{activeCategory}&quot;. Please check back soon or upload new photos from Doctor Dashboard.
               </p>
             </div>
           )}

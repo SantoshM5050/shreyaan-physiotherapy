@@ -33,8 +33,11 @@ export async function apiClient<T>(
   const config: RequestInit = {
     method: body ? (options.method || "POST") : (options.method || "GET"),
     body,
+    cache: "no-store",
     ...customConfig,
     headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Pragma": "no-cache",
       ...defaultHeaders,
       ...headers,
     },

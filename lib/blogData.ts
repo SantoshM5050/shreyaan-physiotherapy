@@ -10,7 +10,11 @@ export interface BlogPost {
   content: { heading: string; paragraph: string }[];
 }
 
-export const BLOG_POSTS: Record<string, BlogPost> = {
+const isDemoEnabled =
+  process.env.NODE_ENV !== "production" &&
+  (process.env.ENABLE_DEMO_BLOGS === "true" || process.env.ALLOW_DEMO_DATA === "true");
+
+const DEMO_BLOG_POSTS: Record<string, BlogPost> = {
   "exercises-for-lower-back-pain": {
     slug: "exercises-for-lower-back-pain",
     title: "5 Effective Exercises for Lower Back Pain Relief at Home",
@@ -95,3 +99,5 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
     ],
   },
 };
+
+export const BLOG_POSTS: Record<string, BlogPost> = isDemoEnabled ? DEMO_BLOG_POSTS : {};

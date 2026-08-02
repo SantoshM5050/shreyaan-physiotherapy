@@ -26,6 +26,32 @@ let inMemoryGallery = [
   },
 ];
 
+const isDemoEnabled = () =>
+  process.env.NODE_ENV !== 'production' &&
+  (process.env.ENABLE_DEMO_GALLERY === 'true' || process.env.ALLOW_DEMO_DATA === 'true');
+
+const extractCloudinaryPublicId = (url, storedPublicId) => {
+  if (storedPublicId && typeof storedPublicId === 'string' && !storedPublicId.startsWith('/')) {
+    return storedPublicId;
+  }
+  if (!url || typeof url !== 'string' || !url.includes('cloudinary.com')) {
+    return null;
+  }
+  try {
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return null;
+    let path = parts[1];
+    path = path.replace(/^v\d+\//, '');
+    const lastDot = path.lastIndexOf('.');
+    if (lastDot !== -1) {
+      path = path.substring(0, lastDot);
+    }
+    return path;
+  } catch {
+    return null;
+  }
+};
+
 // @desc    Get All Gallery Items (Filtered by category if provided)
 // @route   GET /api/gallery
 // @access  Public
@@ -36,15 +62,27 @@ const getGallery = async (req, res, next) => {
     try {
       const query = category ? { category } : {};
       const items = await Gallery.find(query).sort({ createdAt: -1 });
-      if (items && items.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: items.length,
+        gallery: items,
+      });
+    } catch {
+      if (!isDemoEnabled()) {
         return res.status(200).json({
           success: true,
-          count: items.length,
-          gallery: items,
+          count: 0,
+          gallery: [],
         });
       }
-    } catch {
-      // Fall through to memory store
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(200).json({
+        success: true,
+        count: 0,
+        gallery: [],
+      });
     }
 
     let items = [...inMemoryGallery];
@@ -100,7 +138,11 @@ const uploadGalleryImage = async (req, res, next) => {
         message: 'Gallery image uploaded successfully to MongoDB via Cloudinary.',
         galleryItem: newItem,
       });
-    } catch {
+    } catch (dbError) {
+      if (!isDemoEnabled()) {
+        return next(dbError);
+      }
+
       newItem = {
         _id: `gal-${Date.now()}`,
         title: title || 'Clinical Image',
@@ -144,8 +186,26 @@ const updateGalleryImage = async (req, res, next) => {
           galleryItem: item,
         });
       }
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found.',
+        });
+      }
     } catch {
-      // Fall through
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found.',
+        });
+      }
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(404).json({
+        success: false,
+        message: 'Gallery item not found.',
+      });
     }
 
     const index = inMemoryGallery.findIndex((g) => g._id === id);
@@ -179,11 +239,12 @@ const deleteGalleryImage = async (req, res, next) => {
     try {
       const deleted = await Gallery.findByIdAndDelete(id);
       if (deleted) {
-        // Destroy from Cloudinary if valid publicId exists
-        if (deleted.publicId && !deleted.publicId.startsWith('/')) {
+        // Destroy from Cloudinary if valid publicId exists or extracted from Cloudinary URL
+        const targetPublicId = extractCloudinaryPublicId(deleted.imageUrl, deleted.publicId);
+        if (targetPublicId) {
           try {
             const cloudinary = require('../config/cloudinary');
-            await cloudinary.uploader.destroy(deleted.publicId);
+            await cloudinary.uploader.destroy(targetPublicId);
           } catch (cloudinaryErr) {
             console.warn(`[Cloudinary Destroy Warning] ${cloudinaryErr.message}`);
           }
@@ -191,11 +252,29 @@ const deleteGalleryImage = async (req, res, next) => {
 
         return res.status(200).json({
           success: true,
-          message: 'Gallery image deleted successfully.',
+          message: 'Gallery image deleted successfully from MongoDB and Cloudinary.',
+        });
+      }
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found.',
         });
       }
     } catch {
-      // Fall through
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found.',
+        });
+      }
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(404).json({
+        success: false,
+        message: 'Gallery item not found.',
+      });
     }
 
     const initialLen = inMemoryGallery.length;

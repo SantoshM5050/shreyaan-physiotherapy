@@ -35,6 +35,10 @@ let inMemoryBlogs = [
   },
 ];
 
+const isDemoEnabled = () =>
+  process.env.NODE_ENV !== 'production' &&
+  (process.env.ENABLE_DEMO_BLOGS === 'true' || process.env.ALLOW_DEMO_DATA === 'true');
+
 // @desc    Get All Blogs (Supports status, search, category, tag query filters)
 // @route   GET /api/blog
 // @access  Public
@@ -55,18 +59,30 @@ const getBlogs = async (req, res, next) => {
       }
 
       const blogs = await Blog.find(query).sort({ createdAt: -1 });
-      if (blogs && blogs.length > 0) {
+      return res.status(200).json({
+        success: true,
+        count: blogs.length,
+        blogs,
+      });
+    } catch {
+      if (!isDemoEnabled()) {
         return res.status(200).json({
           success: true,
-          count: blogs.length,
-          blogs,
+          count: 0,
+          blogs: [],
         });
       }
-    } catch {
-      // Fall through to memory store
     }
 
-    // Filter memory store
+    if (!isDemoEnabled()) {
+      return res.status(200).json({
+        success: true,
+        count: 0,
+        blogs: [],
+      });
+    }
+
+    // Filter memory store (local dev only if explicitly enabled)
     let filtered = [...inMemoryBlogs];
     if (status) filtered = filtered.filter((b) => b.status === status);
     if (category) filtered = filtered.filter((b) => b.category === category);
@@ -102,8 +118,26 @@ const getBlogBySlug = async (req, res, next) => {
           blog,
         });
       }
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: `Blog with slug '${slug}' not found.`,
+        });
+      }
     } catch {
-      // Fall through to memory store
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: `Blog with slug '${slug}' not found.`,
+        });
+      }
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(404).json({
+        success: false,
+        message: `Blog with slug '${slug}' not found.`,
+      });
     }
 
     const blog = inMemoryBlogs.find((b) => b.slug === slug || b._id === slug);
@@ -168,7 +202,11 @@ const createBlog = async (req, res, next) => {
         message: 'Blog post created successfully in database.',
         blog: newBlog,
       });
-    } catch {
+    } catch (dbError) {
+      if (!isDemoEnabled()) {
+        return next(dbError);
+      }
+
       // Fallback Memory Creation
       newBlog = {
         _id: `blog-${Date.now()}`,
@@ -224,8 +262,26 @@ const updateBlog = async (req, res, next) => {
           blog,
         });
       }
-    } catch {
-      // Fall through to memory store
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Blog not found.',
+        });
+      }
+    } catch (dbError) {
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Blog not found.',
+        });
+      }
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(404).json({
+        success: false,
+        message: 'Blog not found.',
+      });
     }
 
     const index = inMemoryBlogs.findIndex((b) => b._id === id || b.slug === id);
@@ -267,8 +323,26 @@ const deleteBlog = async (req, res, next) => {
           message: 'Blog deleted successfully.',
         });
       }
-    } catch {
-      // Fall through
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Blog not found.',
+        });
+      }
+    } catch (dbError) {
+      if (!isDemoEnabled()) {
+        return res.status(404).json({
+          success: false,
+          message: 'Blog not found.',
+        });
+      }
+    }
+
+    if (!isDemoEnabled()) {
+      return res.status(404).json({
+        success: false,
+        message: 'Blog not found.',
+      });
     }
 
     const initialLen = inMemoryBlogs.length;
