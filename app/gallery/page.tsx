@@ -1,101 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, X, Sparkles, ZoomIn, ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react";
+import { ChevronRight, X, ZoomIn, ChevronLeft, ChevronRight as ChevronRightIcon, AlertCircle, RefreshCw, Image as ImageIcon } from "lucide-react";
+import { GalleryService, GalleryItem } from "../../services/galleryService";
+import { getImageUrl } from "../../lib/getImageUrl";
 import Footer from "../../components/Footer";
 import FloatingActions from "../../components/FloatingActions";
 
-interface GalleryItem {
-  id: string;
-  title: string;
-  category: "Clinic" | "Treatment" | "Equipment" | "Exercises" | "Patients" | "Events";
-  imageUrl: string;
-  caption: string;
-}
-
-const GALLERY_ITEMS: GalleryItem[] = [
-  {
-    id: "g1",
-    title: "Clinic Hero Consultation Space",
-    category: "Clinic",
-    imageUrl: "/images/clinic-hero.png",
-    caption: "Modern clinical assessment and treatment environment at Shreyaan Physiotherapy Center.",
-  },
-  {
-    id: "g2",
-    title: "Spinal Mobilization Therapy",
-    category: "Treatment",
-    imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop&q=80",
-    caption: "Hands-on spinal mobilization and manual therapy care.",
-  },
-  {
-    id: "g3",
-    title: "Advanced Electrotherapy Unit",
-    category: "Equipment",
-    imageUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=1200&auto=format&fit=crop&q=80",
-    caption: "Digital IFT electrotherapy and therapeutic ultrasound equipment.",
-  },
-  {
-    id: "g4",
-    title: "Knee Osteoarthritis Rehab",
-    category: "Treatment",
-    imageUrl: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=1200&auto=format&fit=crop&q=80",
-    caption: "Quadriceps strengthening and knee joint mobilization.",
-  },
-  {
-    id: "g5",
-    title: "Core & Postural Conditioning",
-    category: "Exercises",
-    imageUrl: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&auto=format&fit=crop&q=80",
-    caption: "Targeted lumbar core stability exercise training.",
-  },
-  {
-    id: "g6",
-    title: "Certified Dry Needling",
-    category: "Treatment",
-    imageUrl: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&auto=format&fit=crop&q=80",
-    caption: "Precision trigger point release for chronic muscular knots.",
-  },
-  {
-    id: "g7",
-    title: "Post-Stroke Neuro Gait Rehab",
-    category: "Patients",
-    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1200&auto=format&fit=crop&q=80",
-    caption: "Motor re-education and gait independence training.",
-  },
-  {
-    id: "g8",
-    title: "Health Awareness Workshop",
-    category: "Events",
-    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&auto=format&fit=crop&q=80",
-    caption: "Community ergonomics and spine wellness seminar in Unchahar.",
-  },
-];
-
-const CATEGORIES = ["All", "Clinic", "Treatment", "Equipment", "Exercises", "Patients", "Events"];
+const CATEGORIES = ["All", "Clinic", "Equipment", "Treatment", "Rehab"];
 
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
 
-  const filteredItems = activeCategory === "All"
-    ? GALLERY_ITEMS
-    : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
+  const fetchGalleryData = useCallback(async (cat: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await GalleryService.getGallery(cat);
+      if (response.success && response.gallery) {
+        setGalleryItems(response.gallery);
+      } else {
+        setError(response.message || "Failed to load gallery items.");
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred while loading clinic gallery.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchGalleryData(activeCategory);
+  }, [activeCategory, fetchGalleryData]);
 
   const openLightbox = (index: number) => setActiveLightboxIndex(index);
   const closeLightbox = () => setActiveLightboxIndex(null);
 
   const prevImage = () => {
     if (activeLightboxIndex === null) return;
-    setActiveLightboxIndex((prev) => (prev! <= 0 ? filteredItems.length - 1 : prev! - 1));
+    setActiveLightboxIndex((prev) => (prev! <= 0 ? galleryItems.length - 1 : prev! - 1));
   };
 
   const nextImage = () => {
     if (activeLightboxIndex === null) return;
-    setActiveLightboxIndex((prev) => (prev! >= filteredItems.length - 1 ? 0 : prev! + 1));
+    setActiveLightboxIndex((prev) => (prev! >= galleryItems.length - 1 ? 0 : prev! + 1));
   };
 
   return (
@@ -163,40 +118,85 @@ export default function GalleryPage() {
             ))}
           </div>
 
-          {/* Media Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredItems.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                onClick={() => openLightbox(idx)}
-                className="group relative rounded-3xl overflow-hidden shadow-soft border border-slate-200 cursor-pointer bg-slate-100"
-              >
-                <Image
-                  src={item.imageUrl}
-                  alt={item.title}
-                  width={800}
-                  height={600}
-                  className="aspect-[4/3] w-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white">
-                  <span className="text-[10px] font-black uppercase text-teal tracking-widest">{item.category}</span>
-                  <h3 className="font-bold text-base mt-1 flex items-center justify-between">
-                    <span>{item.title}</span>
-                    <ZoomIn size={18} className="text-teal shrink-0" />
-                  </h3>
+          {/* Loading State */}
+          {loading && (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {[1, 2, 3, 4].map((n) => (
+                <div
+                  key={n}
+                  className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft animate-pulse space-y-3"
+                >
+                  <div className="aspect-[4/3] bg-slate-100 rounded-2xl w-full" />
+                  <div className="h-4 bg-slate-100 rounded w-2/3" />
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+
+          {/* Error State */}
+          {!loading && error && (
+            <div className="max-w-md mx-auto rounded-3xl border border-rose-200 bg-rose-50 p-8 text-center text-rose-800 space-y-4">
+              <AlertCircle size={40} className="mx-auto text-rose-500" />
+              <h3 className="font-bold text-lg">Failed to Load Gallery</h3>
+              <p className="text-xs text-rose-600">{error}</p>
+              <button
+                onClick={() => fetchGalleryData(activeCategory)}
+                className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-rose-700 transition-all shadow-md"
+              >
+                <RefreshCw size={14} />
+                <span>Retry</span>
+              </button>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && galleryItems.length === 0 && (
+            <div className="max-w-md mx-auto rounded-3xl border border-slate-200 bg-slate-50 p-12 text-center text-slate-500 space-y-3">
+              <ImageIcon size={48} className="mx-auto text-teal mb-2" />
+              <h3 className="font-bold text-navy text-lg">No Images Uploaded Yet</h3>
+              <p className="text-xs">
+                No clinic images found for category &quot;{activeCategory}&quot;. Upload new photos from Doctor Dashboard.
+              </p>
+            </div>
+          )}
+
+          {/* Media Grid */}
+          {!loading && !error && galleryItems.length > 0 && (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {galleryItems.map((item, idx) => (
+                <motion.div
+                  key={item._id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  onClick={() => openLightbox(idx)}
+                  className="group relative rounded-3xl overflow-hidden shadow-soft border border-slate-200 cursor-pointer bg-slate-100"
+                >
+                  <div className="aspect-[4/3] w-full relative">
+                    <Image
+                      src={getImageUrl(item.imageUrl)}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white">
+                    <span className="text-[10px] font-black uppercase text-teal tracking-widest">{item.category}</span>
+                    <h3 className="font-bold text-base mt-1 flex items-center justify-between">
+                      <span className="truncate">{item.title}</span>
+                      <ZoomIn size={18} className="text-teal shrink-0 ml-2" />
+                    </h3>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </section>
       </main>
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {activeLightboxIndex !== null && (
+        {activeLightboxIndex !== null && galleryItems[activeLightboxIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -227,24 +227,26 @@ export default function GalleryPage() {
               className="max-w-4xl w-full bg-navy/90 rounded-3xl overflow-hidden shadow-2xl border border-white/20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative aspect-[16/10] w-full">
+              <div className="relative aspect-[16/10] w-full bg-black">
                 <Image
-                  src={filteredItems[activeLightboxIndex].imageUrl}
-                  alt={filteredItems[activeLightboxIndex].title}
+                  src={getImageUrl(galleryItems[activeLightboxIndex].imageUrl)}
+                  alt={galleryItems[activeLightboxIndex].title}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
-              <div className="p-6 text-white">
-                <span className="text-xs font-black uppercase text-teal tracking-wider">
-                  {filteredItems[activeLightboxIndex].category}
+              <div className="p-6 text-white flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-black uppercase text-teal tracking-wider">
+                    {galleryItems[activeLightboxIndex].category}
+                  </span>
+                  <h3 className="text-xl font-bold mt-1">
+                    {galleryItems[activeLightboxIndex].title}
+                  </h3>
+                </div>
+                <span className="text-xs text-slate-400">
+                  {new Date(galleryItems[activeLightboxIndex].createdAt).toLocaleDateString()}
                 </span>
-                <h3 className="text-xl font-bold mt-1">
-                  {filteredItems[activeLightboxIndex].title}
-                </h3>
-                <p className="text-xs text-slate-300 mt-2">
-                  {filteredItems[activeLightboxIndex].caption}
-                </p>
               </div>
             </div>
 

@@ -1,3 +1,5 @@
+import { apiClient } from "./apiClient";
+
 export interface DoctorUser {
   id: string;
   name: string;
@@ -16,54 +18,39 @@ export interface AuthResponse {
 
 const AUTH_KEY = "shreyaan_doctor_auth";
 const TOKEN_KEY = "shreyaan_doctor_token";
-
-const DEMO_CREDENTIALS = {
-  email: "doctor@shreyaanphysiotherapycenter.in",
-  password: "DrSonam@2026",
-};
+const LAST_LOGIN_KEY = "shreyaan_doctor_last_login";
 
 export class AuthService {
   /**
-   * Authenticate doctor with credentials.
-   * Currently uses validated demo credentials, prepared for JWT REST API swap.
+   * Authenticate doctor with credentials via Backend REST API.
    */
   static async login(email: string, password: string): Promise<AuthResponse> {
     const trimmedEmail = email.trim().toLowerCase();
 
-    // Check against demo credentials
-    if (
-      trimmedEmail === DEMO_CREDENTIALS.email.toLowerCase() &&
-      password === DEMO_CREDENTIALS.password
-    ) {
-      const user: DoctorUser = {
-        id: "DOC-10534",
-        name: "Dr. Sonam Maurya",
-        email: DEMO_CREDENTIALS.email,
-        role: "doctor",
-        qualification: "BPTh (Mumbai University)",
-        registrationNo: "10534",
-      };
+    try {
+      const response = await apiClient<AuthResponse>("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email: trimmedEmail, password }),
+      });
 
-      const token = `mock-jwt-token-${Date.now()}`;
-
-      if (typeof window !== "undefined") {
-        localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-        localStorage.setItem(TOKEN_KEY, token);
+      if (response.success && response.token && response.user) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem(AUTH_KEY, JSON.stringify(response.user));
+          localStorage.setItem(TOKEN_KEY, response.token);
+          localStorage.setItem(LAST_LOGIN_KEY, new Date().toLocaleString("en-IN", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }));
+        }
       }
 
+      return response;
+    } catch (error: any) {
       return {
-        success: true,
-        message: "Login successful",
-        token,
-        user,
+        success: false,
+        message: error.message || "Invalid email or password",
       };
     }
-
-    // Return invalid credentials error
-    return {
-      success: false,
-      message: "Invalid email or password",
-    };
   }
 
   /**
@@ -98,5 +85,13 @@ export class AuthService {
     } catch {
       return null;
     }
+  }
+
+  /**
+   * Get last login timestamp recorded.
+   */
+  static getLastLogin(): string {
+    if (typeof window === "undefined") return "Active Session";
+    return localStorage.getItem(LAST_LOGIN_KEY) || "Active Session";
   }
 }

@@ -1,49 +1,81 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { HeartPulse, Sparkles, ShieldCheck } from "lucide-react";
+import { HeartPulse, Sparkles, ShieldCheck, ArrowRight } from "lucide-react";
+import { GalleryService, GalleryItem } from "../services/galleryService";
+import { getImageUrl } from "../lib/getImageUrl";
 
 interface GallerySectionProps {
   t: any;
 }
 
 export default function GallerySection({ t }: GallerySectionProps) {
+  const [featuredImage, setFeaturedImage] = useState<string>("/images/clinic-hero.png");
+  const [featuredTitle, setFeaturedTitle] = useState<string>("Modern Equipment & Patient-Focused Care");
+
+  useEffect(() => {
+    async function loadFeaturedGallery() {
+      try {
+        const response = await GalleryService.getGallery();
+        if (response.success && response.gallery && response.gallery.length > 0) {
+          const latest = response.gallery[0];
+          setFeaturedImage(getImageUrl(latest.imageUrl));
+          setFeaturedTitle(latest.title);
+        }
+      } catch {
+        // Fallback to clinic hero image
+      }
+    }
+    loadFeaturedGallery();
+  }, []);
+
   return (
     <section id="gallery" className="section py-20 lg:py-28">
-      <div className="max-w-3xl">
-        <p className="eyebrow">{t.gallery.eyebrow}</p>
-        <h2 className="heading mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-          {t.gallery.title}
-        </h2>
-        <p className="mt-4 text-base sm:text-lg text-slate-600">
-          {t.gallery.text}
-        </p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="max-w-3xl">
+          <p className="eyebrow">{t.gallery.eyebrow}</p>
+          <h2 className="heading mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+            {t.gallery.title}
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-600">
+            {t.gallery.text}
+          </p>
+        </div>
+
+        <Link
+          href="/gallery"
+          className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-teal hover:text-navy transition-colors shrink-0"
+        >
+          <span>View Full Gallery</span>
+          <ArrowRight size={16} />
+        </Link>
       </div>
 
       <div className="mt-12 grid gap-6 md:grid-cols-12 items-stretch">
-        {/* Main Image Banner */}
+        {/* Main Image Banner dynamically loaded from MongoDB Gallery */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="md:col-span-8 relative rounded-3xl overflow-hidden shadow-soft border border-slate-200/80 group min-h-[320px]"
+          className="md:col-span-8 relative rounded-3xl overflow-hidden shadow-soft border border-slate-200/80 group min-h-[320px] bg-slate-100"
         >
           <Image
-            src="/images/clinic-hero.png"
-            alt="Physiotherapy treatment space at Shreyaan Physiotherapy Center Unchahar"
+            src={featuredImage}
+            alt={featuredTitle}
             width={1200}
             height={800}
             sizes="(max-width: 768px) 100vw, 65vw"
             className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent p-6 sm:p-8 flex flex-col justify-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/20 to-transparent p-6 sm:p-8 flex flex-col justify-end">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-3 py-1 text-xs font-bold text-white w-fit mb-2">
               <Sparkles size={14} className="text-teal" aria-hidden="true" /> High Hygiene Standard
             </span>
-            <p className="text-xl sm:text-2xl font-bold text-white">Modern Equipment & Patient-Focused Care</p>
+            <p className="text-xl sm:text-2xl font-bold text-white">{featuredTitle}</p>
           </div>
         </motion.div>
 

@@ -1,0 +1,72 @@
+{
+  "appointments": [
+    {
+      "id": "APT-101",
+      "patient": {
+        "name": "Rajesh Sharma",
+        "phone": "+91 9876543210",
+        "email": "rajesh.sharma@example.com"
+      },
+      "serviceName": "Back & Neck Pain Rehabilitation",
+      "preferredDate": "2026-08-02",
+      "preferredSlot": "10:30 AM",
+      "symptoms": "Chronic lower back pain radiating to left leg",
+      "status": "confirmed",
+      "createdAt": "2026-08-01T20:36:17.116Z",
+      "source": "website"
+    },
+    {
+      "id": "APT-102",
+      "patient": {
+        "name": "Pooja Verma",
+        "phone": "+91 9812345678",
+        "email": "pooja.v@example.com"
+      },
+      "serviceName": "Knee & Joint Pain Management",
+      "preferredDate": "2026-08-02",
+      "preferredSlot": "11:15 AM",
+      "symptoms": "Bilateral knee stiffness, difficulty climbing stairs",
+      "status": "confirmed",
+      "createdAt": "2026-08-01T20:36:17.116Z",
+      "source": "website"
+    },
+    {
+      "id": "APT-103",
+      "patient": {
+        "name": "Amit Singh",
+        "phone": "+91 9711223344",
+        "email": "amit.singh@example.com"
+      },
+      "serviceName": "Dry Needling & Cupping Therapy",
+      "preferredDate": "2026-08-02",
+      "preferredSlot": "02:00 PM",
+      "symptoms": "Upper back muscle knots and strain",
+      "status": "pending",
+      "createdAt": "2026-08-01T20:36:17.116Z",
+      "source": "website"
+    },
+    {
+      "id": "APT-104",
+      "patient": {
+        "name": "Sunita Gupta",
+        "phone": "+91 9655443322",
+        "email": "sunita.g@example.com"
+      },
+      "serviceName": "Post-Surgical Knee Rehab",
+      "preferredDate": "2026-08-01",
+      "preferredSlot": "03:30 PM",
+      "symptoms": "ACL reconstruction post-op rehabilitation week 4",
+      "status": "completed",
+      "createdAt": "2026-08-01T20:36:17.116Z",
+      "source": "website"
+    }
+  ],
+  "doctor": {
+    "id": "DOC-ACTIVE",
+    "name": "Dr. Sonam Maurya",
+    "email": "doctor@shreyaanphysiotherapycenter.in",
+    "role": "doctor",
+    "qualification": "BPTh (Mumbai University)",
+    "registrationNo": "10534"
+  }
+}

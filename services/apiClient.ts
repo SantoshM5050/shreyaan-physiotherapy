@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string>;
@@ -9,7 +9,7 @@ export async function apiClient<T>(
   endpoint: string,
   options: RequestOptions = {}
 ): Promise<T> {
-  const { params, token, headers, ...customConfig } = options;
+  const { params, token, headers, body, ...customConfig } = options;
 
   let url = endpoint.startsWith("http") ? endpoint : `${BASE_URL}${endpoint}`;
 
@@ -19,16 +19,20 @@ export async function apiClient<T>(
   }
 
   const defaultHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
     Accept: "application/json",
   };
+
+  if (!(body instanceof FormData)) {
+    defaultHeaders["Content-Type"] = "application/json";
+  }
 
   if (token) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
   }
 
   const config: RequestInit = {
-    method: options.body ? "POST" : "GET",
+    method: body ? (options.method || "POST") : (options.method || "GET"),
+    body,
     ...customConfig,
     headers: {
       ...defaultHeaders,
