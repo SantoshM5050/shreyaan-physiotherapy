@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import SchemaData from "../components/SchemaData";
+import { Analytics } from '@vercel/analytics/next';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -118,6 +119,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-white text-[#12374b] selection:bg-teal selection:text-white">
         {children}
+        <Analytics />
       </body>
     </html>
   );
