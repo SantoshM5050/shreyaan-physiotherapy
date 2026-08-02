@@ -910,7 +910,7 @@ export default function DoctorDashboardPage() {
                 <div>
                   <p className="text-[11px] font-extrabold uppercase text-slate-400">Email Address</p>
                   <p className="text-sm font-bold text-navy mt-1">
-                    {user?.email || "doctor@shreyaanphysiotherapycenter.in"}
+                    {user?.email || "doctor@example.com"}
                   </p>
                 </div>
                 <div>

@@ -6,26 +6,37 @@ const Doctor = require('../models/Doctor');
 
 const seedDoctor = async () => {
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/shreyaan_physiotherapy';
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      console.warn('[Seed Script Warning] MONGO_URI environment variable is missing.');
+      process.exit(0);
+    }
+
     console.log('[Seed Script] Connecting to MongoDB...');
     await mongoose.connect(mongoUri);
 
-    const email = (process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@shreyaanphysiotherapycenter.in').toLowerCase();
+    const email = (process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@example.com').toLowerCase();
+    const password = process.env.DEFAULT_DOCTOR_PASSWORD;
+
+    if (!password) {
+      console.warn('[Seed Script Warning] DEFAULT_DOCTOR_PASSWORD environment variable is missing.');
+      process.exit(0);
+    }
+
     let existingDoctor = await Doctor.findOne({ email });
 
     if (existingDoctor) {
       console.log(`[Seed Script] Doctor user '${email}' already exists in MongoDB.`);
-      // Update password to ensure it matches
-      existingDoctor.password = process.env.DEFAULT_DOCTOR_PASSWORD || 'DrSonam@2026';
+      existingDoctor.password = password;
       await existingDoctor.save();
-      console.log(`[Seed Script] Doctor password updated successfully.`);
+      console.log(`[Seed Script] Doctor password updated successfully from environment variables.`);
       process.exit(0);
     }
 
     const doctor = new Doctor({
       name: process.env.DEFAULT_DOCTOR_NAME || 'Dr. Sonam Maurya',
       email: email,
-      password: process.env.DEFAULT_DOCTOR_PASSWORD || 'DrSonam@2026',
+      password: password,
       qualification: process.env.DEFAULT_DOCTOR_QUALIFICATION || 'BPTh (Mumbai University)',
       registrationNo: process.env.DEFAULT_DOCTOR_REGISTRATION || '10534',
       role: 'doctor',

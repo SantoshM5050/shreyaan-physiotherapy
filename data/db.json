@@ -64,7 +64,7 @@
   "doctor": {
     "id": "DOC-ACTIVE",
     "name": "Dr. Sonam Maurya",
-    "email": "doctor@shreyaanphysiotherapycenter.in",
+    "email": "doctor@example.com",
     "role": "doctor",
     "qualification": "BPTh (Mumbai University)",
     "registrationNo": "10534"

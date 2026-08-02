@@ -1,5 +1,8 @@
 const http = require('http');
 
+const email = process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@example.com';
+const password = process.env.DEFAULT_DOCTOR_PASSWORD || 'YOUR_TEST_PASSWORD';
+
 function makeRequest(options, postData) {
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
@@ -43,8 +46,8 @@ async function runBackendTests() {
     // 2. Doctor Login API Test
     console.log('\n[2/7] Testing POST /api/auth/login...');
     const loginPayload = JSON.stringify({
-      email: 'doctor@shreyaanphysiotherapycenter.in',
-      password: 'DrSonam@2026',
+      email: email,
+      password: password,
     });
     const loginRes = await makeRequest(
       {
@@ -100,7 +103,6 @@ async function runBackendTests() {
       newBlogPayload
     );
     console.log(`Status: ${createBlogRes.status} | Created Blog Slug:`, createBlogRes.data.blog?.slug);
-    const createdBlogId = createBlogRes.data.blog?._id;
 
     // 5. Read Blogs API Test
     console.log('\n[5/7] Testing GET /api/blog...');

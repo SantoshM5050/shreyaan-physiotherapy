@@ -1,35 +1,35 @@
 <div align="center">
 
-  <img src="assets/logo.svg" alt="Shreyaan Physiotherapy Center Logo" width="100%"/>
+  <img src="assets/logo.svg" alt="Shreyaan Physiotherapy Center Logo" width="100%" />
 
-# 🏥 SHREYAAN PHYSIOTHERAPY CENTER
+  # 🏥 SHREYAAN PHYSIOTHERAPY CENTER
 
-### _Full-Stack Enterprise Medical Portal & Cloud-Native Content Management System_
+  ### *Full-Stack Enterprise Medical Portal & Cloud-Native Content Management System*
 
-[![Live Website](https://img.shields.io/badge/Live%20Website-shreyaanphysiotherapycenter.in-0d9488?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.shreyaanphysiotherapycenter.in)
-[![GitHub Repository](https://img.shields.io/badge/GitHub-santoshm5050%2Fshreyaan--physiotherapy-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SantoshM5050/shreyaan-physiotherapy)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
-  <br />
-
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.1-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React 19](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-4.21-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/cloud/atlas)
-[![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_CDN-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
-[![Render](https://img.shields.io/badge/Render-API_Hosted-46E3B7?style=flat-square&logo=render&logoColor=black)](https://render.com/)
+  [![Live Website](https://img.shields.io/badge/Live%20Website-shreyaanphysiotherapycenter.in-0d9488?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.shreyaanphysiotherapycenter.in)
+  [![GitHub Repository](https://img.shields.io/badge/GitHub-santoshm5050%2Fshreyaan--physiotherapy-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SantoshM5050/shreyaan-physiotherapy)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
   <br />
 
-<a href="https://www.shreyaanphysiotherapycenter.in"><strong>🌐 Explore Live Website »</strong></a>
-&nbsp;•&nbsp;
-<a href="https://www.shreyaanphysiotherapycenter.in/doctor/login"><strong>🔐 Doctor CMS Login »</strong></a>
-&nbsp;•&nbsp;
-<a href="#-rest-api-overview"><strong>📡 API Documentation »</strong></a>
+  [![Next.js 15](https://img.shields.io/badge/Next.js-15.1-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
+  [![React 19](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+  [![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js-4.21-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+  [![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/cloud/atlas)
+  [![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_CDN-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+  [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
+  [![Render](https://img.shields.io/badge/Render-API_Hosted-46E3B7?style=flat-square&logo=render&logoColor=black)](https://render.com/)
+
+  <br />
+
+  <a href="https://www.shreyaanphysiotherapycenter.in"><strong>🌐 Explore Live Website »</strong></a>
+  &nbsp;•&nbsp;
+  <a href="https://www.shreyaanphysiotherapycenter.in/doctor/login"><strong>🔐 Doctor CMS Login »</strong></a>
+  &nbsp;•&nbsp;
+  <a href="#-rest-api-overview"><strong>📡 API Documentation »</strong></a>
 
 </div>
 
@@ -57,7 +57,6 @@ The system empowers clinical practitioners to publish evidence-based health arti
 ## ⚡ Key Feature Highlights
 
 ### 🌐 Public Patient Web Application
-
 - **🎨 Modern Responsive Interface**: Custom design system built with Vanilla Tailwind CSS, HSL medical color palettes, and fluid Framer Motion micro-interactions.
 - **🔍 Search Engine Optimization (SEO)**: Includes dynamic OpenGraph meta tags, canonical URLs, automated `sitemap.xml`, `robots.txt`, and Schema.org JSON-LD structured data.
 - **📰 Dynamic Health & Rehab Blog**: Fetches published articles in real-time from MongoDB Atlas (`GET /api/blog?status=published`).
@@ -66,7 +65,6 @@ The system empowers clinical practitioners to publish evidence-based health arti
 - **📍 Interactive Google Maps Integration**: Embedded location maps and direct navigation links for physical clinic visits in Unchahar, UP.
 
 ### 🔐 Secure Doctor CMS Dashboard
-
 - **🔑 JWT & Bcrypt Authentication**: Protected admin portal authenticated via HTTP Bearer JSON Web Tokens and salted bcrypt password encryption.
 - **📝 Full Blog Article CRUD**: Create, edit, draft, publish, and delete clinical articles with custom category tags and SEO metadata.
 - **☁️ Cloudinary Media Upload Pipeline**: Direct file upload integration converting local multipart media streams into secure Cloudinary HTTPS CDN URLs (`shreyaan/blog` & `shreyaan/gallery`).
@@ -87,7 +85,7 @@ The system empowers clinical practitioners to publish evidence-based health arti
 - [📡 REST API Overview](#-rest-api-overview)
 - [⚙️ Local Installation Guide](#️-local-installation-guide)
 - [🔐 Environment Variables](#-environment-variables)
-- [🛡️ Security Architecture](#️-security-architecture)
+- [🛡️ Security Architecture](#-security-architecture)
 - [🚀 Performance Optimization](#-performance-optimization)
 - [🎯 SEO & Structured Data](#-seo--structured-data)
 - [☁️ Cloudinary Storage Integration](#️-cloudinary-storage-integration)
@@ -347,8 +345,8 @@ The Express backend provides a complete set of RESTful HTTP endpoints for authen
 ```json
 // Request Body
 {
-  "email": "doctor@shreyaanphysiotherapycenter.in",
-  "password": "DrSonam@2026"
+  "email": "doctor@example.com",
+  "password": "YOUR_DOCTOR_PASSWORD"
 }
 
 // Response 200 OK
@@ -359,7 +357,7 @@ The Express backend provides a complete set of RESTful HTTP endpoints for authen
   "user": {
     "id": "67a0f123456789abcdef",
     "name": "Dr. Sonam Maurya",
-    "email": "doctor@shreyaanphysiotherapycenter.in",
+    "email": "doctor@example.com",
     "qualification": "BPTh (Mumbai University)",
     "registrationNo": "10534",
     "role": "doctor"
@@ -453,24 +451,24 @@ PORT=5000
 NODE_ENV=development
 
 # MongoDB Atlas Connection URI
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.wurtrpm.mongodb.net/shreyaan?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://YOUR_USER:YOUR_PASSWORD@cluster0.wurtrpm.mongodb.net/shreyaan?retryWrites=true&w=majority
 
 # JWT Authentication Secret & Expiry
-JWT_SECRET=shreyaan-doctor-portal-secret-jwt-key-2026
+JWT_SECRET=YOUR_SECURE_JWT_SECRET_KEY
 JWT_EXPIRES_IN=24h
 
 # Allowed Client Origin (CORS)
 CLIENT_URL=http://localhost:3000
 
 # Cloudinary Cloud Storage Configuration
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_CLOUD_NAME=YOUR_CLOUD_NAME
+CLOUDINARY_API_KEY=YOUR_API_KEY
+CLOUDINARY_API_SECRET=YOUR_API_SECRET
 
 # Default Doctor Credentials
 DEFAULT_DOCTOR_NAME=Dr. Sonam Maurya
-DEFAULT_DOCTOR_EMAIL=doctor@shreyaanphysiotherapycenter.in
-DEFAULT_DOCTOR_PASSWORD=DrSonam@2026
+DEFAULT_DOCTOR_EMAIL=doctor@example.com
+DEFAULT_DOCTOR_PASSWORD=YOUR_SECURE_DOCTOR_PASSWORD
 DEFAULT_DOCTOR_QUALIFICATION=BPTh (Mumbai University)
 DEFAULT_DOCTOR_REGISTRATION=10534
 ```
@@ -533,7 +531,7 @@ The backend REST API implements multi-layered security protections:
 > - **Rate Limiting**: Protects `/api/*` endpoints using `express-rate-limit` capped at 200 requests per 15-minute window to prevent Brute-Force & Denial-of-Service attacks.
 > - **JWT Authentication**: Secured with stateless `jsonwebtoken` Bearer Header checks (`Authorization: Bearer <token>`) verified against Mongoose ObjectIDs.
 > - **Bcrypt Password Salt**: All passwords are stored using salted `bcryptjs` single-way hash algorithms with `select: false` default projection.
-> - **Input Sanitization**: Express request bodies are validated and sanitized via `express-validator` to prevent NoSQL injection and Cross-Site Scripting (XSS).
+> - **Input Sanitization**: Express request bodies are validated and sanitized via string type checks to prevent NoSQL injection and Cross-Site Scripting (XSS).
 
 ---
 

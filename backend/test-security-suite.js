@@ -1,5 +1,8 @@
 const http = require('http');
 
+const email = process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@example.com';
+const password = process.env.DEFAULT_DOCTOR_PASSWORD || 'YOUR_TEST_PASSWORD';
+
 function request(options, data) {
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
@@ -25,7 +28,7 @@ async function runSecurityTests() {
   console.log('====================================================');
 
   try {
-    // 1. Valid MongoDB Login
+    // 1. Valid Doctor Login
     console.log('\n[Test 1] Valid Doctor Login');
     const validLogin = await request(
       {
@@ -36,8 +39,8 @@ async function runSecurityTests() {
         headers: { 'Content-Type': 'application/json' },
       },
       JSON.stringify({
-        email: 'doctor@shreyaanphysiotherapycenter.in',
-        password: 'DrSonam@2026',
+        email: email,
+        password: password,
       })
     );
     console.log(`Status: ${validLogin.status} | Token Issued:`, Boolean(validLogin.data.token));
@@ -54,8 +57,8 @@ async function runSecurityTests() {
         headers: { 'Content-Type': 'application/json' },
       },
       JSON.stringify({
-        email: 'doctor@shreyaanphysiotherapycenter.in',
-        password: 'WrongPassword123',
+        email: email,
+        password: 'WrongPassword123!',
       })
     );
     console.log(`Status: ${wrongPass.status} (Expected 401) | Message: "${wrongPass.data.message}"`);
@@ -72,7 +75,7 @@ async function runSecurityTests() {
       },
       JSON.stringify({
         email: 'nonexistent.doctor@example.com',
-        password: 'DrSonam@2026',
+        password: 'SomePassword123!',
       })
     );
     console.log(`Status: ${unknownUser.status} (Expected 401) | Message: "${unknownUser.data.message}"`);

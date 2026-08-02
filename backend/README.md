@@ -25,7 +25,7 @@ npm run seed
 PORT=5000
 NODE_ENV=development
 MONGO_URI=mongodb://127.0.0.1:27017/shreyaan_physiotherapy
-JWT_SECRET=shreyaan-doctor-portal-secret-jwt-key-2026
+JWT_SECRET=YOUR_SECURE_JWT_SECRET_KEY
 JWT_EXPIRES_IN=24h
 CLIENT_URL=http://localhost:3000
 ```

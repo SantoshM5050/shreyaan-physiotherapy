@@ -1,5 +1,8 @@
 const http = require('http');
 
+const email = process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@example.com';
+const password = process.env.DEFAULT_DOCTOR_PASSWORD || 'YOUR_TEST_PASSWORD';
+
 function request(options, data) {
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
@@ -33,8 +36,8 @@ async function testSuite() {
     // 2. Doctor Login with MongoDB / Hashed Credentials
     console.log('\n2. POST /api/auth/login');
     const loginData = JSON.stringify({
-      email: 'doctor@shreyaanphysiotherapycenter.in',
-      password: 'DrSonam@2026',
+      email: email,
+      password: password,
     });
     const login = await request(
       {

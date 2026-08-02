@@ -1,31 +1,41 @@
 const jwt = require('jsonwebtoken');
 const Doctor = require('../models/Doctor');
 
-const generateToken = (id) => {
-  return jwt.sign(
-    { id },
-    process.env.JWT_SECRET || 'shreyaan-doctor-portal-secret-jwt-key-2026',
-    { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
-  );
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    throw new Error(
+      "FATAL SECURITY ERROR: JWT_SECRET environment variable is missing."
+    );
+  }
+
+  return secret;
 };
 
-// @desc    Doctor Login API (Database Authenticated via MongoDB with Graceful Fallback)
+const generateToken = (id) => {
+  return jwt.sign({ id }, getJwtSecret(), {
+    expiresIn: process.env.JWT_EXPIRES_IN || '24h',
+  });
+};
+
+// @desc    Doctor Login API (Database Authenticated via MongoDB with Environment Fallback)
 // @route   POST /api/auth/login
 // @access  Public
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email and password.',
+        message: 'Invalid input: Email and password are required and must be strings.',
       });
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const defaultEmail = (process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@shreyaanphysiotherapycenter.in').toLowerCase();
-    const defaultPassword = process.env.DEFAULT_DOCTOR_PASSWORD || 'DrSonam@2026';
+    const defaultEmail = (process.env.DEFAULT_DOCTOR_EMAIL || '').trim().toLowerCase();
+    const defaultPassword = process.env.DEFAULT_DOCTOR_PASSWORD || '';
 
     let doctor = null;
 
@@ -68,8 +78,7 @@ const login = async (req, res, next) => {
     }
 
     // Default Doctor Fallback if MongoDB record not yet created
-    if (normalizedEmail === defaultEmail && password === defaultPassword) {
-      // Create record in DB if connected
+    if (defaultEmail && defaultPassword && normalizedEmail === defaultEmail && password === defaultPassword) {
       try {
         doctor = new Doctor({
           name: process.env.DEFAULT_DOCTOR_NAME || 'Dr. Sonam Maurya',
@@ -81,7 +90,7 @@ const login = async (req, res, next) => {
         });
         await doctor.save();
       } catch {
-        // Fall back to synthetic object ID
+        // DB disconnect fallback
       }
 
       const id = doctor ? doctor._id.toString() : 'doc-default-001';
@@ -137,9 +146,11 @@ const getMe = async (req, res, next) => {
     let doctor = null;
 
     try {
-      doctor = await Doctor.findById(req.user.id).select('-password');
+      if (req.user && req.user.id && req.user.id !== 'doc-default-001') {
+        doctor = await Doctor.findById(req.user.id).select('-password');
+      }
     } catch {
-      // Fallback if synth ID used
+      // Fallback
     }
 
     if (doctor) {
@@ -159,9 +170,9 @@ const getMe = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       user: {
-        id: req.user.id,
+        id: req.user?.id || 'doc-default-001',
         name: process.env.DEFAULT_DOCTOR_NAME || 'Dr. Sonam Maurya',
-        email: process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@shreyaanphysiotherapycenter.in',
+        email: process.env.DEFAULT_DOCTOR_EMAIL || 'doctor@example.com',
         qualification: process.env.DEFAULT_DOCTOR_QUALIFICATION || 'BPTh (Mumbai University)',
         registrationNo: process.env.DEFAULT_DOCTOR_REGISTRATION || '10534',
         role: 'doctor',

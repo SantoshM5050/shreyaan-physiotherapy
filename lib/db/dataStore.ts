@@ -21,7 +21,7 @@ const DB_FILE = path.join(DB_DIR, "db.json");
 const DEFAULT_DOCTOR: DoctorUser = {
   id: process.env.DOCTOR_ID || "DOC-ACTIVE",
   name: process.env.DOCTOR_NAME || "Dr. Sonam Maurya",
-  email: (process.env.DOCTOR_EMAIL || "doctor@shreyaanphysiotherapycenter.in").toLowerCase(),
+  email: (process.env.DOCTOR_EMAIL || "doctor@example.com").toLowerCase(),
   role: "doctor",
   qualification: process.env.DOCTOR_QUALIFICATION || "BPTh (Mumbai University)",
   registrationNo: process.env.DOCTOR_REGISTRATION || "10534",

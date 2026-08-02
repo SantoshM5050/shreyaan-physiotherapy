@@ -13,16 +13,30 @@ const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
+// Disable X-Powered-By header
+app.disable('x-powered-by');
+
 // Security Headers via Helmet
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    frameguard: { action: 'sameorigin' },
+    contentSecurityPolicy: false, // Managed dynamically
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    xContentTypeOptions: true,
   })
 );
+
+// Custom Permissions Policy Header
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  next();
+});
 
 // Enable CORS for Frontend Next.js client
 const allowedOrigins = [
   process.env.CLIENT_URL || 'http://localhost:3000',
+  'https://www.shreyaanphysiotherapycenter.in',
   'http://localhost:3001',
   'http://127.0.0.1:3000',
 ];
@@ -30,30 +44,30 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
         callback(null, true);
       } else {
-        callback(null, true); // Allow during dev
+        callback(new Error('CORS Policy: Access denied from this origin.'));
       }
     },
     credentials: true,
   })
 );
 
-// HTTP Logging
+// HTTP Request Logging
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-// Request Parsers
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Request Parsers with strict size limits to prevent Denial of Service
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 app.use(cookieParser());
 
-// Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // Limit each IP to 200 requests per windowMs
+// Global API Rate Limiter (200 requests per 15 minutes)
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -61,10 +75,20 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again after 15 minutes.',
   },
 });
-app.use('/api', limiter);
+app.use('/api', globalLimiter);
 
-// Serve static uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Strict Login Rate Limiter (10 login attempts per 15 minutes)
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many login attempts from this IP. Please try again after 15 minutes.',
+  },
+});
+app.use('/api/auth/login', loginLimiter);
 
 // Health Check API
 app.get('/api/health', (req, res) => {
