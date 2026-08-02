@@ -62,7 +62,7 @@ const getGallery = async (req, res, next) => {
   }
 };
 
-// @desc    Upload / Add Gallery Image (Doctor Protected)
+// @desc    Upload / Add Gallery Image (Doctor Protected) - Cloudinary Storage Supported
 // @route   POST /api/gallery
 // @access  Protected
 const uploadGalleryImage = async (req, res, next) => {
@@ -73,8 +73,8 @@ const uploadGalleryImage = async (req, res, next) => {
     let publicId = '';
 
     if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
-      publicId = req.file.filename;
+      imageUrl = req.file.path || req.file.secure_url;
+      publicId = req.file.filename || req.file.public_id || '';
     }
 
     if (!imageUrl) {
@@ -97,7 +97,7 @@ const uploadGalleryImage = async (req, res, next) => {
 
       return res.status(201).json({
         success: true,
-        message: 'Gallery image uploaded successfully to MongoDB.',
+        message: 'Gallery image uploaded successfully to MongoDB via Cloudinary.',
         galleryItem: newItem,
       });
     } catch {
@@ -169,7 +169,7 @@ const updateGalleryImage = async (req, res, next) => {
   }
 };
 
-// @desc    Delete Gallery Image (Doctor Protected)
+// @desc    Delete Gallery Image (Doctor Protected) - Cloudinary Supported
 // @route   DELETE /api/gallery/:id
 // @access  Protected
 const deleteGalleryImage = async (req, res, next) => {
@@ -179,11 +179,13 @@ const deleteGalleryImage = async (req, res, next) => {
     try {
       const deleted = await Gallery.findByIdAndDelete(id);
       if (deleted) {
-        // If stored locally, delete image file
-        if (deleted.publicId) {
-          const filePath = path.join(__dirname, '../uploads', deleted.publicId);
-          if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
+        // Destroy from Cloudinary if valid publicId exists
+        if (deleted.publicId && !deleted.publicId.startsWith('/')) {
+          try {
+            const cloudinary = require('../config/cloudinary');
+            await cloudinary.uploader.destroy(deleted.publicId);
+          } catch (cloudinaryErr) {
+            console.warn(`[Cloudinary Destroy Warning] ${cloudinaryErr.message}`);
           }
         }
 

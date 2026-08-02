@@ -123,7 +123,7 @@ const getBlogBySlug = async (req, res, next) => {
   }
 };
 
-// @desc    Create Blog Post (Doctor Protected)
+// @desc    Create Blog Post (Doctor Protected) - Cloudinary Storage Supported
 // @route   POST /api/blog
 // @access  Protected
 const createBlog = async (req, res, next) => {
@@ -140,7 +140,11 @@ const createBlog = async (req, res, next) => {
     } = req.body;
 
     const generatedSlug = slugify(title, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : (req.body.featuredImage || '/images/blog/default.jpg');
+    
+    // Save Cloudinary secure HTTPS URL from req.file if uploaded, otherwise body URL or fallback
+    const imagePath = req.file
+      ? (req.file.path || req.file.secure_url)
+      : (req.body.featuredImage || '/images/blog/default.jpg');
 
     let newBlog;
 
@@ -195,7 +199,7 @@ const createBlog = async (req, res, next) => {
   }
 };
 
-// @desc    Update Blog Post (Doctor Protected)
+// @desc    Update Blog Post (Doctor Protected) - Cloudinary Storage Supported
 // @route   PUT /api/blog/:id
 // @access  Protected
 const updateBlog = async (req, res, next) => {
@@ -204,7 +208,7 @@ const updateBlog = async (req, res, next) => {
     const updates = { ...req.body };
 
     if (req.file) {
-      updates.featuredImage = `/uploads/${req.file.filename}`;
+      updates.featuredImage = req.file.path || req.file.secure_url;
     }
 
     if (updates.title) {
