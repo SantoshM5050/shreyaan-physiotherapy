@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="assets/logo.svg" alt="Shreyaan Physiotherapy Center Logo" width="100" height="100" />
+  <img src="assets/logo.svg" alt="Shreyaan Physiotherapy Center Logo" width="100%"/>
 
 # 🏥 SHREYAAN PHYSIOTHERAPY CENTER
 
