@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    scroll-margin-top: 5rem;
+  }
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  body {
+    font-family: var(--font-body), "Inter", sans-serif;
+    color: #12374b;
+    background-color: #ffffff;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), "Plus Jakarta Sans", sans-serif;
+  }
+  button, a, input, select, textarea, [role="button"] {
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+}
+
+.section {
+  @apply mx-auto max-w-7xl px-5 sm:px-8 lg:px-10;
+}
+
+.eyebrow {
+  @apply text-xs font-black uppercase tracking-[0.2em] text-teal;
+}
+
+.heading {
+  @apply font-heading font-extrabold tracking-tight text-navy;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-teal px-6 py-3.5 font-bold text-white transition-all duration-200 hover:bg-[#078d8d] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-teal/30 active:scale-95 cursor-pointer select-none;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-navy/20 bg-white/50 px-6 py-3.5 font-bold text-navy transition-all duration-200 hover:border-teal hover:bg-mist hover:text-teal focus:outline-none focus:ring-4 focus:ring-teal/20 active:scale-95 cursor-pointer select-none;
+}
+
+.card {
+  @apply rounded-3xl border border-slate-100 bg-white shadow-soft transition-all duration-200;
+}
+
+/* Glassmorphism helpers */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.glass-dark {
+  background: rgba(7, 59, 92, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #0aa6a6;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #073b5c;
+}
+
+/* 3D Utility Classes & Depth Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-800 {
+  perspective: 800px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.translate-z-4 {
+  transform: translateZ(16px);
+}
+
+.translate-z-8 {
+  transform: translateZ(32px);
+}
+
+.translate-z-12 {
+  transform: translateZ(48px);
+}
+
+@keyframes pulseGlow3D {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(10, 166, 166, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(10, 166, 166, 0.8));
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow3D 4s ease-in-out infinite;
+}
