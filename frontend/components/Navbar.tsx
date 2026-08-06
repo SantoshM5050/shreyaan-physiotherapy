@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HeartPulse, Languages, Menu, X, CalendarDays, Phone, UserCheck } from "lucide-react";
 import { CLINIC_INFO } from "../lib/constants";
 import { Language } from "../hooks/useLanguage";
+import { AuthService } from "../services/authService";
 
 interface NavbarProps {
   lang: Language;
@@ -15,12 +16,14 @@ interface NavbarProps {
 export default function Navbar({ lang, onToggleLanguage, t }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
+    setIsLoggedIn(AuthService.isAuthenticated());
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -33,6 +36,9 @@ export default function Navbar({ lang, onToggleLanguage, t }: NavbarProps) {
     { name: t.nav.blog, href: "/blog" },
     { name: t.nav.contact, href: "/contact" },
   ];
+
+  const doctorPortalHref = isLoggedIn ? "/doctor/dashboard" : "/doctor/login";
+  const doctorPortalLabel = isLoggedIn ? "Doctor Portal" : t.nav.doctorLogin;
 
   return (
     <header
@@ -71,16 +77,16 @@ export default function Navbar({ lang, onToggleLanguage, t }: NavbarProps) {
           ))}
         </nav>
 
-        {/* Actions (Doctor Login, Language Switcher & CTA Buttons) */}
+        {/* Actions (Doctor Login/Portal, Language Switcher & CTA Buttons) */}
         <div className="flex items-center gap-2 shrink-0">
           {/* Doctor Portal Button */}
           <Link
-            href="/doctor/login"
+            href={doctorPortalHref}
             aria-label="Doctor Portal Login"
             className="hidden xl:inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/10 px-3 py-1.5 text-xs font-extrabold text-teal hover:bg-teal hover:text-white transition-all whitespace-nowrap"
           >
             <UserCheck size={14} />
-            <span>{t.nav.doctorLogin}</span>
+            <span>{doctorPortalLabel}</span>
           </Link>
 
           {/* Language Selector */}
@@ -147,12 +153,12 @@ export default function Navbar({ lang, onToggleLanguage, t }: NavbarProps) {
               </Link>
 
               <Link
-                href="/doctor/login"
+                href={doctorPortalHref}
                 onClick={() => setMobileMenuOpen(false)}
                 className="rounded-xl px-4 py-2.5 bg-teal/10 text-teal font-extrabold flex items-center gap-2"
               >
                 <UserCheck size={16} />
-                <span>Doctor Portal Login</span>
+                <span>{doctorPortalLabel}</span>
               </Link>
 
               <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-3">

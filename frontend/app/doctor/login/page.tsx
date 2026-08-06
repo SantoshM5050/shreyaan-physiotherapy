@@ -17,10 +17,10 @@ export default function DoctorLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Auto-redirect to homepage if already authenticated
+  // Auto-redirect to Doctor Dashboard if already authenticated
   useEffect(() => {
     if (AuthService.isAuthenticated()) {
-      router.replace("/");
+      router.replace("/doctor/dashboard");
     }
   }, [router]);
 
@@ -33,7 +33,7 @@ export default function DoctorLoginPage() {
       const res = await AuthService.login(email, password);
 
       if (res.success) {
-        router.push("/");
+        router.push("/doctor/dashboard");
       } else {
         setError(res.message || "Invalid email or password");
       }
