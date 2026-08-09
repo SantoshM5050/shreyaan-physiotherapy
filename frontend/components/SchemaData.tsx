@@ -56,6 +56,9 @@ export default function SchemaData() {
       name: CLINIC_INFO.doctor.name,
       jobTitle: CLINIC_INFO.doctor.title,
       description: `${CLINIC_INFO.doctor.qualification}. Registration No: ${CLINIC_INFO.doctor.registrationNo}. Expert in dry needling, cupping therapy, and specialized rehabilitation.`,
+      sameAs: [
+        CLINIC_INFO.urls.doctorInstagram,
+      ],
       alumniOf: {
         "@type": "EducationalOrganization",
         name: "Mumbai University",
@@ -70,6 +73,8 @@ export default function SchemaData() {
     },
     sameAs: [
       CLINIC_INFO.urls.googleMap,
+      CLINIC_INFO.urls.facebook,
+      CLINIC_INFO.urls.instagram,
     ],
   };
 

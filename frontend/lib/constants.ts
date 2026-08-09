@@ -47,6 +47,9 @@ export const CLINIC_INFO = {
     googleMapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.790938676241!2d81.2940827!3d25.907775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399b0f869997b4e3%3A0xf5adf7c9c63088c3!2sSHREYAAN%20PHYSIOTHERAPY%20CENTER!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
     googleDirections: "https://www.google.com/maps/dir/?api=1&destination=25.9077702,81.2966576&destination_place_id=0x399b0f869997b4e3:0xf5adf7c9c63088c3",
     googleWriteReview: "https://search.google.com/local/writereview?placeid=SHREYAAN+PHYSIOTHERAPY+CENTER",
+    facebook: "https://www.facebook.com/ShreyaanPhysiotherapyCentre/",
+    instagram: "https://www.instagram.com/shreyaanphysiotherapycenter/",
+    doctorInstagram: "https://www.instagram.com/sonam.mourya.7503/",
   },
 };
 
