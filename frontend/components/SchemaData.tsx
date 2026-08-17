@@ -67,7 +67,7 @@ export default function SchemaData() {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "5.0",
-      reviewCount: "157",
+      reviewCount: "11",
       bestRating: "5",
       worstRating: "1",
     },

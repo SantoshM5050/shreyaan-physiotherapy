@@ -92,7 +92,7 @@ export default function ServiceDetailClient({ service }: ServiceDetailClientProp
               <div className="mt-8 pt-6 border-t border-slate-200/80 flex flex-wrap items-center gap-6 text-xs font-bold text-navy">
                 <span className="flex items-center gap-1.5">
                   <Star size={16} className="fill-amber-400 text-amber-400" />
-                  <span>5.0 Rating (157+ Reviews)</span>
+                  <span>5.0 Rating (11+ Reviews)</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck size={16} className="text-teal" />

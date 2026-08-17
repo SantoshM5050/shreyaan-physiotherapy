@@ -54,31 +54,33 @@ export default function ServicesPage() {
         <section className="section py-16">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {servicesList.map((service, idx) => (
-              <Card3D key={service.id} intensity={12} glareOpacity={0.15} className="rounded-3xl">
+              <Card3D key={service.id} intensity={8} className="rounded-3xl">
                 <motion.article
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="flex flex-col justify-between h-full rounded-3xl border border-slate-200/80 bg-white p-6 shadow-soft hover:shadow-xl transition-all duration-300 group"
+                  className="flex flex-col justify-between h-full rounded-3xl border border-slate-200/80 bg-white p-6 shadow-soft hover:shadow-xl transition-all duration-300 group relative z-10"
                 >
                   <div>
-                    <div className="relative rounded-2xl overflow-hidden mb-5 aspect-[16/9] bg-slate-100">
-                      <Image
-                        src={service.heroImage}
-                        alt={service.title}
-                        width={600}
-                        height={400}
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <span className="absolute top-3 left-3 rounded-full bg-navy/80 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white shadow-sm">
-                        {service.category}
-                      </span>
-                    </div>
+                    <Link href={`/services/${service.id}`} className="block group/link cursor-pointer">
+                      <div className="relative rounded-2xl overflow-hidden mb-5 aspect-[16/9] bg-slate-100">
+                        <Image
+                          src={service.heroImage}
+                          alt={service.title}
+                          width={600}
+                          height={400}
+                          className="object-cover group-hover/link:scale-105 transition-transform duration-500"
+                        />
+                        <span className="absolute top-3 left-3 rounded-full bg-navy/80 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+                          {service.category}
+                        </span>
+                      </div>
 
-                    <h2 className="text-xl font-bold text-navy group-hover:text-teal transition-colors">
-                      {service.title}
-                    </h2>
+                      <h2 className="text-xl font-bold text-navy group-hover/link:text-teal transition-colors">
+                        {service.title}
+                      </h2>
+                    </Link>
                     <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {service.tagline}
                     </p>
@@ -93,10 +95,10 @@ export default function ServicesPage() {
                     </ul>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between relative z-20">
                     <Link
                       href={`/services/${service.id}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal hover:text-navy transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal hover:text-white bg-teal/10 hover:bg-teal px-3 py-2 rounded-xl transition-all shadow-sm cursor-pointer"
                     >
                       <span>Read Full Details</span>
                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -104,7 +106,7 @@ export default function ServicesPage() {
 
                     <a
                       href={`tel:${CLINIC_INFO.contact.primaryPhone}`}
-                      className="text-xs font-bold text-slate-500 hover:text-teal transition-colors"
+                      className="text-xs font-bold text-slate-600 hover:text-teal hover:bg-slate-100 px-3 py-2 rounded-xl transition-all cursor-pointer"
                     >
                       Consult Doctor
                     </a>

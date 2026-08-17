@@ -96,68 +96,42 @@ export function getFallbackReviewsResponse(errorMessage?: string): GoogleReviews
 
   const fallbackReviews: GoogleReview[] = [
     {
-      reviewId: "fb-rev-1",
+      reviewId: "g-rev-spine-l5s1",
       reviewer: {
-        displayName: "Rajesh Sharma",
+        displayName: "Verified Patient (L5-S1 Spine Rehab)",
         profilePhotoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       },
       starRating: 5,
       comment:
-        "Dr. Sonam Maurya provided exceptional care for my chronic lower back pain. Within 3 weeks of targeted physiotherapy exercises and posture guidance, I am back to my daily routine completely pain-free!",
-      createTime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-      relativeTime: "1 week ago",
-      verified: true,
-    },
-    {
-      reviewId: "fb-rev-2",
-      reviewer: {
-        displayName: "Pooja Verma",
-        profilePhotoUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-      },
-      starRating: 5,
-      comment:
-        "Very clean and well-equipped physiotherapy clinic in Unchahar. Dr. Sonam is extremely patient, gentle, and explains every treatment step clearly. Highly recommended for post-surgery rehabilitation!",
-      createTime: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000).toISOString(),
+        "Exceptional Care & Recovery! Meri L5-S1 spine surgery ke baad doctor ne mujhe physiotherapy lene ki salah di thi. Maine Shreyaan Physiotherapy Centre visit kiya, aur ye mera sabse accha decision tha! Yahan ki Dr. Sonam Maurya mam ka treatment aur unka patient ke sath vyavhar bohot hi shandaar aur supportive hai. Unki sahi guidance aur mehnat ki wajah se main sirf 1 hi mahine mein puri tarah se chalne laga. Unka treatment sach mein kamaal ka hai. Agar kisi ko bhi spine ya physio se judi problem hai, toh main Dr. Sonam Maurya mam aur Shreyaan Physiotherapy Centre zaroor recommend karunga. Thank you so much, Mam! 🙏",
+      createTime: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
       relativeTime: "2 weeks ago",
       verified: true,
     },
     {
-      reviewId: "fb-rev-3",
+      reviewId: "g-rev-jigyashu-yadav",
       reviewer: {
-        displayName: "Amit Singh",
+        displayName: "Jigyashu Yadav",
         profilePhotoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       },
       starRating: 5,
       comment:
-        "I had severe shoulder stiffness and reduced mobility. After undergoing dry needling and specialized exercise therapy here, I felt immense relief within a few sessions. Outstanding doctor!",
-      createTime: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
-      relativeTime: "3 weeks ago",
+        "Best physiotherapy center in unchahar, excellent work by Dr.sonam maurya",
+      createTime: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
+      relativeTime: "4 months ago",
       verified: true,
     },
     {
-      reviewId: "fb-rev-4",
+      reviewId: "g-rev-mummy-recovery",
       reviewer: {
-        displayName: "Sunita Gupta",
+        displayName: "Verified Patient Family",
         profilePhotoUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
       },
       starRating: 5,
       comment:
-        "Brought my mother for knee osteoarthritis rehabilitation. Dr. Sonam's caring attitude and personalized exercise program have helped her walk without pain. Best physio center nearby!",
-      createTime: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(),
-      relativeTime: "1 month ago",
-      verified: true,
-    },
-    {
-      reviewId: "fb-rev-5",
-      reviewer: {
-        displayName: "Vikram Tripathi",
-        profilePhotoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
-      },
-      starRating: 5,
-      comment:
-        "Top-notch diagnosis and compassionate treatment. The clinic is hygienic, comfortable, and Dr. Sonam truly treats patients with genuine dedication. 5/5 stars!",
-      createTime: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
-      relativeTime: "1 month ago",
+        "Best physiotherapist in unchahar town Dr Sonam Meri mummy ko chala diya boht boht dhanyawad aapka Dr. Sahiba",
+      createTime: new Date(Date.now() - 1000 * 24 * 60 * 60 * 1000).toISOString(),
+      relativeTime: "3 years ago",
       verified: true,
     },
   ];
@@ -166,7 +140,7 @@ export function getFallbackReviewsResponse(errorMessage?: string): GoogleReviews
     success: true,
     summary: {
       averageRating: 5.0,
-      totalReviewCount: 157,
+      totalReviewCount: 11,
       writeReviewUrl: writeUrl,
       readAllReviewsUrl: readAllUrl,
     },

@@ -6,12 +6,15 @@ import { motion } from "framer-motion";
 import { CalendarDays, Phone, Sparkles, Star, ShieldCheck, Award } from "lucide-react";
 import { CLINIC_INFO } from "../lib/constants";
 import Card3D from "./3d/Card3D";
+import { useClinicStatus } from "../hooks/useClinicStatus";
 
 interface HeroProps {
   t: any;
 }
 
 export default function Hero({ t }: HeroProps) {
+  const isOpen = useClinicStatus();
+
   return (
     <section id="home" className="relative overflow-hidden bg-gradient-to-b from-mist via-white to-mist/40 pt-8 pb-16 lg:pt-12 lg:pb-24">
       {/* Background Decorative Blur Gradients */}
@@ -71,7 +74,7 @@ export default function Hero({ t }: HeroProps) {
                 </div>
                 <div>
                   <p className="text-xs font-extrabold text-navy">5.0 ★ Rating</p>
-                  <p className="text-[11px] text-slate-500">157+ Google Reviews</p>
+                  <p className="text-[11px] text-slate-500">11+ Google Reviews</p>
                 </div>
               </div>
             </Card3D>
@@ -122,9 +125,31 @@ export default function Hero({ t }: HeroProps) {
               />
 
               {/* Floating Glassmorphic Overlay Badge 1 */}
-              <div className="absolute top-4 right-4 rounded-2xl bg-white/95 backdrop-blur-md p-3 shadow-lg border border-white/40 flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
-                <span className="text-xs font-extrabold text-navy">Open Today (10 AM – 6 PM)</span>
+              <div
+                className={`absolute top-4 right-4 rounded-2xl backdrop-blur-md p-2.5 sm:p-3 shadow-lg border flex items-center gap-2 transition-all ${
+                  isOpen
+                    ? "bg-white/95 border-white/40 text-navy"
+                    : "bg-slate-900/90 border-rose-500/30 text-rose-100"
+                }`}
+              >
+                {isOpen ? (
+                  <>
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                    </span>
+                    <span className="text-xs font-extrabold text-navy">
+                      {t.quickInfo?.heroOpenBadge || "Open Today (10 AM – 6 PM)"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
+                    <span className="text-xs font-extrabold text-rose-100">
+                      {t.quickInfo?.heroClosedBadge || "Closed Now (Opens 10 AM)"}
+                    </span>
+                  </>
+                )}
               </div>
 
               {/* Floating Glassmorphic Overlay Badge 2 */}

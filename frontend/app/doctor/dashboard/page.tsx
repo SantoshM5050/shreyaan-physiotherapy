@@ -548,7 +548,7 @@ export default function DoctorDashboardPage() {
                 <div>
                   <p className="text-[11px] font-black uppercase text-slate-400">Google Rating</p>
                   <p className="text-3xl font-black text-amber-500 mt-1">5.0 ★</p>
-                  <p className="text-xs text-slate-500 font-bold mt-1">157+ Verified Reviews</p>
+                  <p className="text-xs text-slate-500 font-bold mt-1">11 Verified Reviews</p>
                 </div>
                 <div className="h-12 w-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600">
                   <Globe size={24} />

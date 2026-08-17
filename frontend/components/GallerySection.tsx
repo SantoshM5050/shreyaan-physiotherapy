@@ -16,29 +16,16 @@ interface GallerySectionProps {
 const FALLBACK_ITEMS: GalleryItem[] = [
   {
     _id: "fb-1",
-    title: "Modern Clinical Space & Treatment Bays",
+    title: "Shreyaan Physiotherapy Center Unchahar",
     category: "Clinic",
     imageUrl: "/images/clinic-hero.png",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    _id: "fb-2",
-    title: "Advanced Electrotherapy & Modalities",
-    category: "Equipment",
-    imageUrl: "/images/electrotherapy.png",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    _id: "fb-3",
-    title: "Specialized Spine & Joint Rehabilitation",
-    category: "Rehab",
-    imageUrl: "/images/spine-care.png",
     createdAt: new Date().toISOString(),
   },
 ];
 
 export default function GallerySection({ t }: GallerySectionProps) {
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(FALLBACK_ITEMS);
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -47,9 +34,13 @@ export default function GallerySection({ t }: GallerySectionProps) {
         const response = await GalleryService.getGallery();
         if (response.success && response.gallery && response.gallery.length > 0) {
           setGalleryItems(response.gallery);
+        } else {
+          setGalleryItems(FALLBACK_ITEMS);
         }
       } catch {
-        // Retain default fallback items
+        setGalleryItems(FALLBACK_ITEMS);
+      } finally {
+        setLoading(false);
       }
     }
     loadGallery();
@@ -79,8 +70,9 @@ export default function GallerySection({ t }: GallerySectionProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeLightboxIndex, prevImage, nextImage]);
 
-  const mainItem = galleryItems[0] || FALLBACK_ITEMS[0];
-  const sideThumbnails = galleryItems.slice(1, 3);
+  const displayItems = galleryItems.length > 0 ? galleryItems : FALLBACK_ITEMS;
+  const mainItem = displayItems[0];
+  const sideThumbnails = displayItems.slice(1, 3);
 
   return (
     <section id="gallery" className="section py-20 lg:py-28">
@@ -104,9 +96,19 @@ export default function GallerySection({ t }: GallerySectionProps) {
         </Link>
       </div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-12 items-stretch">
-        {/* Main Featured Interactive Gallery Card */}
-        <div className="md:col-span-8">
+      {loading ? (
+        /* Skeleton Loader to prevent demo image flash */
+        <div className="mt-12 grid gap-6 md:grid-cols-12 items-stretch">
+          <div className="md:col-span-8 h-[360px] rounded-3xl bg-slate-100 animate-pulse border border-slate-200" />
+          <div className="md:col-span-4 grid gap-6">
+            <div className="h-44 rounded-3xl bg-slate-100 animate-pulse border border-slate-200" />
+            <div className="h-44 rounded-3xl bg-slate-100 animate-pulse border border-slate-200" />
+          </div>
+        </div>
+      ) : (
+        <div className="mt-12 grid gap-6 md:grid-cols-12 items-stretch">
+          {/* Main Featured Interactive Gallery Card */}
+          <div className="md:col-span-8">
           <Card3D intensity={12} glareOpacity={0.2} className="h-full rounded-3xl">
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
@@ -210,6 +212,7 @@ export default function GallerySection({ t }: GallerySectionProps) {
           </Card3D>
         </div>
       </div>
+      )}
 
       {/* Lightbox Modal Component */}
       <AnimatePresence>

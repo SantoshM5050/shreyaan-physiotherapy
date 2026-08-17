@@ -265,7 +265,7 @@ export const TRANSLATIONS = {
       ctaPrimary: "Book An Appointment",
       ctaSecondary: "Call Clinic",
       trustStat1: "10+ Years Care",
-      trustStat2: "157+ 5-Star Reviews",
+      trustStat2: "11+ 5-Star Reviews",
       trustStat3: "Certified Specialist",
     },
     quickInfo: {
@@ -275,6 +275,10 @@ export const TRANSLATIONS = {
       locationText: "NTPC Road, Unchahar, UP",
       contactTitle: "Call Us",
       contactText: "+91 9140574645",
+      openStatus: "Open Today",
+      closedStatus: "Closed Now",
+      heroOpenBadge: "Open Today (10 AM – 6 PM)",
+      heroClosedBadge: "Closed Now (Opens 10 AM)",
     },
     about: {
       eyebrow: "ABOUT THE CLINIC & DOCTOR",
@@ -355,7 +359,7 @@ export const TRANSLATIONS = {
       ctaPrimary: "अपॉइंटमेंट बुक करें",
       ctaSecondary: "क्लिनिक को कॉल करें",
       trustStat1: "10+ वर्ष का अनुभव",
-      trustStat2: "157+ 5-स्टार समीक्षाएं",
+      trustStat2: "11+ 5-स्टार समीक्षाएं",
       trustStat3: "प्रमाणित विशेषज्ञ",
     },
     quickInfo: {
@@ -365,6 +369,10 @@ export const TRANSLATIONS = {
       locationText: "एनटीपीसी रोड, ऊंचाहार, यूपी",
       contactTitle: "संपर्क करें",
       contactText: "+91 9140574645",
+      openStatus: "आज खुला है",
+      closedStatus: "अभी बंद है",
+      heroOpenBadge: "खुला है (10 AM – 6 PM)",
+      heroClosedBadge: "अभी बंद है (10 AM पर खुलेगा)",
     },
     about: {
       eyebrow: "क्लिनिक और डॉक्टर के बारे में",

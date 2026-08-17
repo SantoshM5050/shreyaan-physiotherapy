@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Phone, MapPin, Send, CheckCircle2, Clock3, Calendar, MessageCircle, AlertCircle, ExternalLink, Navigation } from "lucide-react";
 import { CLINIC_INFO, SERVICES } from "../lib/constants";
 import { useAppointmentForm } from "../hooks/useAppointmentForm";
+import { useClinicStatus } from "../hooks/useClinicStatus";
 import Card3D from "./3d/Card3D";
 
 interface ContactSectionProps {
@@ -13,6 +14,7 @@ interface ContactSectionProps {
 export default function ContactSection({ t }: ContactSectionProps) {
   const { loading, sent, error, submitForm, resetForm } = useAppointmentForm();
   const [selectedSlot, setSelectedSlot] = useState<string>("Morning (10 AM - 1 PM)");
+  const isOpen = useClinicStatus();
 
   const timeSlots = [
     { id: "morning", label: "Morning", time: "10 AM - 1 PM" },
@@ -81,8 +83,24 @@ export default function ContactSection({ t }: ContactSectionProps) {
               <span className="rounded-xl bg-teal/10 p-3.5 text-teal shrink-0">
                 <Clock3 size={22} aria-hidden="true" />
               </span>
-              <div>
-                <p className="text-xs font-black uppercase text-teal">Opening Hours</p>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-black uppercase text-teal">Opening Hours</p>
+                  {isOpen ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-800 border border-emerald-200">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                      </span>
+                      Open Today
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-2.5 py-0.5 text-[10px] font-extrabold text-rose-800 border border-rose-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+                      Closed Now
+                    </span>
+                  )}
+                </div>
                 <p className="text-base font-bold text-navy mt-0.5">Monday – Sunday: 10:00 AM – 6:00 PM</p>
                 <p className="text-xs text-slate-500 font-normal">Available all 7 days of the week</p>
               </div>

@@ -3,12 +3,15 @@
 import React from "react";
 import { Clock3, MapPin, Phone, Navigation } from "lucide-react";
 import { CLINIC_INFO } from "../lib/constants";
+import { useClinicStatus } from "../hooks/useClinicStatus";
 
 interface QuickInfoBarProps {
   t: any;
 }
 
 export default function QuickInfoBar({ t }: QuickInfoBarProps) {
+  const isOpen = useClinicStatus();
+
   return (
     <section className="border-y border-teal/15 bg-white relative z-20 shadow-sm">
       <div className="section grid gap-4 py-5 sm:grid-cols-3">
@@ -22,10 +25,20 @@ export default function QuickInfoBar({ t }: QuickInfoBarProps) {
               <p className="text-xs font-black uppercase tracking-wider text-teal">
                 {t.quickInfo.hoursTitle}
               </p>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-extrabold text-emerald-800">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-                Open Today
-              </span>
+              {isOpen ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-extrabold text-emerald-800 border border-emerald-200">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  </span>
+                  {t.quickInfo?.openStatus || "Open Today"}
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-extrabold text-rose-800 border border-rose-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+                  {t.quickInfo?.closedStatus || "Closed Now"}
+                </span>
+              )}
             </div>
             <p className="text-sm font-bold text-navy mt-0.5">
               Mon – Sun: <span className="font-semibold text-slate-700">10:00 AM – 6:00 PM</span>
